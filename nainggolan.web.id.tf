@@ -33,3 +33,5 @@ resource "cloudflare_record" "terraform_managed_resource_43002899d517b864cbf9968
   zone_id = "52f70a1cb815a41afe62102e1165746a"
   value   = "\"v=spf1 include:zohomail.com ~all\""
 }
+
+  
