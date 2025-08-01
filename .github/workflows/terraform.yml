@@ -35,7 +35,7 @@ jobs:
 
       - name: Terraform Plan
         if: github.ref == 'refs/heads/github-actions'
-        run: terraform plan -var-file="terraformhh.tfvars" -out=tfplan.out
+        run: terraform plan -out=tfplan.out
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
