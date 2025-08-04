@@ -2,6 +2,7 @@ name: Terraform Pipeline
 
 on:
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   pull_request:
     types: [opened, synchronize]
@@ -9,6 +10,8 @@ on:
       - main
 
 >>>>>>> 8d0177d (commit)
+=======
+>>>>>>> 5de6cd7 (fix)
   workflow_dispatch:
     inputs:
       job_to_run:
@@ -16,6 +19,7 @@ on:
         required: true
         type: choice
         options:
+<<<<<<< HEAD
 <<<<<<< HEAD
           - preview
           - approve
@@ -26,36 +30,57 @@ jobs:
     if: ${{ github.event.inputs.job_to_run == 'preview' }}
 =======
           - apply_to_main
+=======
+          - preview
+          - approve
+>>>>>>> 5de6cd7 (fix)
 
 jobs:
-  terraform_preview:
-    if: github.event_name == 'pull_request'
+  pull_request_job:
     name: Terraform Preview
+<<<<<<< HEAD
 >>>>>>> 8d0177d (commit)
+=======
+    if: ${{ github.event.inputs.job_to_run == 'preview' }}
+>>>>>>> 5de6cd7 (fix)
     runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Terraform
+      - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.8.2
 
       - name: Terraform Init
         run: terraform init
 
       - name: Terraform Plan
-        run: terraform plan
+        run: terraform plan -out=tfplan.out
 
-  terraform_apply:
-    if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && github.event.inputs.job_to_run == 'apply_to_main' }}
-    name: Terraform Approved
+  approve_job:
+    name: Terraform Approve
+    if: ${{ github.event.inputs.job_to_run == 'approve' }}
     runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Terraform
+      - name: Set up Terraform 
         uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.8.2
 
       - name: Terraform Init
         run: terraform init
@@ -90,7 +115,11 @@ jobs:
 
       - name: Terraform Apply
 <<<<<<< HEAD
+<<<<<<< HEAD
         run: terraform apply tfplan.out
 =======
         run: terraform apply -auto-approve tfplan.out
 >>>>>>> 8d0177d (commit)
+=======
+        run: terraform apply tfplan.out
+>>>>>>> 5de6cd7 (fix)
