@@ -40,7 +40,7 @@ jobs:
 
   terraform_approved:
     if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && github.event.inputs.job_to_run == 'apply_to_main' }}
-    name: Terraform approved
+    name: Terraform Approved
     runs-on: ubuntu-latest
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
