@@ -1,6 +1,11 @@
 name: Terraform Pipeline
 
 on:
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - main
+
   workflow_dispatch:
     inputs:
       job_to_run:
@@ -8,51 +13,36 @@ on:
         required: true
         type: choice
         options:
-          - preview
-          - approve
+          - apply_to_main
 
 jobs:
-  pull_request_job:
-    name: Terraform Preview
-    if: ${{ github.event.inputs.job_to_run == 'preview' }}
+  terraform_preview:
+    if: github.event_name == 'pull_request'
+    name: Terraform Init & Plan (PR)
     runs-on: ubuntu-latest
-    env:
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Terraform
+      - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.8.2
 
       - name: Terraform Init
         run: terraform init
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan.out
+        run: terraform plan
 
-  approve_job:
-    name: Terraform Approve
-    if: ${{ github.event.inputs.job_to_run == 'approve' }}
+  terraform_apply:
+    if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && github.event.inputs.job_to_run == 'apply_to_main' }}
+    name: Terraform Init, Plan & Apply (Manual)
     runs-on: ubuntu-latest
-    env:
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Terraform 
+      - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.8.2
 
       - name: Terraform Init
         run: terraform init
@@ -61,4 +51,4 @@ jobs:
         run: terraform plan -out=tfplan.out
 
       - name: Terraform Apply
-        run: terraform apply tfplan.out
+        run: terraform apply -auto-approve tfplan.out
