@@ -67,6 +67,7 @@ jobs:
   approve_job:
     name: Terraform Approve
     if: ${{ github.event.inputs.job_to_run == 'approve' }}
+    needs: pull_request_job
     runs-on: ubuntu-latest
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -116,6 +117,7 @@ jobs:
       - name: Terraform Apply
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         run: terraform apply tfplan.out
 =======
         run: terraform apply -auto-approve tfplan.out
@@ -123,3 +125,6 @@ jobs:
 =======
         run: terraform apply tfplan.out
 >>>>>>> 5de6cd7 (fix)
+=======
+        run: terraform apply tfplan.out
+>>>>>>> 99d2295 (clear)
