@@ -40,7 +40,7 @@ resource "cloudflare_record" "test_record" {
   type    = "TXT"
   ttl     = 1
   proxied = false
-  value   = "\"Test\""
+  value   = "test"
 }
 
 
