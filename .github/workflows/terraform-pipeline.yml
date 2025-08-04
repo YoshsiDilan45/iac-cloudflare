@@ -38,7 +38,7 @@ jobs:
       - name: Terraform Plan
         run: terraform plan
 
-  terraform_apply:
+  terraform_approved:
     if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && github.event.inputs.job_to_run == 'apply_to_main' }}
     name: Terraform approved
     runs-on: ubuntu-latest
