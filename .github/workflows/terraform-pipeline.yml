@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       job_to_run:
-        description: 'Pilih job yang ingin dijalankan'
+        description: 'Pilih job yang ingin anda jalankan'
         required: true
         type: choice
         options:
