@@ -35,7 +35,7 @@ resource "cloudflare_record" "terraform_managed_resource_43002899d517b864cbf9968
 }
 
 resource "cloudflare_record" "test_record" {
-  name    = "testt"
+  name    = "test"
   proxied = false 
   ttl     = 1
   type    = "TXT"
