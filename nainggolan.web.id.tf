@@ -36,11 +36,11 @@ resource "cloudflare_record" "terraform_managed_resource_43002899d517b864cbf9968
 
 resource "cloudflare_record" "test_record" {
   zone_id = "52f70a1cb815a41afe62102e1165746a"
-  name    = "test add record"
+  name    = "test"
   type    = "TXT"
   ttl     = 1
   proxied = false
-  value   = "\"Test\""
+  value   = "test_record"
 }
 
 
