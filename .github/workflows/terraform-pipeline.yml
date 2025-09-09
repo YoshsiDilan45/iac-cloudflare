@@ -64,7 +64,7 @@ jobs:
         run: terraform apply -auto-approve tfplan.out
 
   sonarqube_scan:
-    if: github.event_name = 'pull_request'
+    if: github.event_name == 'pull_request'
     name: SonarQube Scan
     runs-on: ubuntu-latest
     steps:
@@ -72,7 +72,7 @@ jobs:
         uses: actions/checkout@v4
         
       - name: SonarQube Scan
-        uses: sonarsource/sonarcloud-github-actions@master  
+        uses: sSonarSource/sonarqube-scan-action@v5 
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
