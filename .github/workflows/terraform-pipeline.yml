@@ -52,7 +52,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v3  
 
       - name: Terraform Init
         run: terraform init
@@ -62,3 +62,18 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan.out
+
+  sonarqube_scan:
+    if: github.event_name = 'pull_request'
+    name: SonarQube Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        
+      - name: SonarQube Scan
+        uses: sonarsource/sonarcloud-github-actions@master  
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+    
