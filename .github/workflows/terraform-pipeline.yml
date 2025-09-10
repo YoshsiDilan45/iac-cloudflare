@@ -71,7 +71,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
         
-      - name: SonarQube analyze
+      - name: Analyze SonarQube
         uses: SonarSource/sonarqube-scan-action@v5 
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
